@@ -1,0 +1,592 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2b1739">
+<title>A Little World Made for Munny 💗</title>
+<style>
+:root {
+  --pink:#f7b8d2;
+  --rose:#ef8db9;
+  --lav:#c9a7f2;
+  --deep:#24132f;
+  --cream:#fff4fa;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--cream);
+  font-family:system-ui,sans-serif;
+  background:
+    radial-gradient(ellipse at 15% 10%,rgba(189,125,220,.28),transparent 38%),
+    linear-gradient(145deg,#1c1029,#321b42 55%,#24132f);
+  overflow-x:hidden;
+}
+button { font:inherit; }
+.stars,.hearts {
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+.star {
+  position:absolute;
+  width:3px;height:3px;
+  border-radius:50%;
+  background:white;
+  animation:twinkle 3s infinite alternate;
+}
+@keyframes twinkle {
+  to { opacity:.12;transform:scale(.55); }
+}
+.heart {
+  position:absolute;
+  bottom:-40px;
+  color:#f8a9ce;
+  animation:floatUp 8s linear forwards;
+}
+@keyframes floatUp {
+  100% { transform:translateY(-110vh);opacity:0; }
+}
+.wrap {
+  position:relative;
+  z-index:1;
+  width:min(100% - 30px,720px);
+  margin:auto;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:28px 0;
+}
+.screen {
+  display:none;
+  width:100%;
+  text-align:center;
+  animation:appear .75s ease both;
+}
+.screen.active { display:block; }
+@keyframes appear {
+  from { opacity:0;transform:translateY(18px); }
+  to { opacity:1;transform:translateY(0); }
+}
+.eyebrow {
+  color:#e8c7ef;
+  text-transform:uppercase;
+  letter-spacing:.22em;
+  font-size:.7rem;
+}
+h1,h2 {
+  font-family:Georgia,serif;
+  font-weight:500;
+  line-height:1.12;
+  color:#fff2fa;
+}
+h1 { font-size:clamp(2.5rem,9vw,5rem); }
+h2 { font-size:clamp(2rem,7vw,3.2rem); }
+.gradient {
+  background:linear-gradient(100deg,#ffe4ee,#d8b9ff,#ffc9df);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+p {
+  color:#ead9ef;
+  line-height:1.8;
+}
+.sub {
+  max-width:520px;
+  margin:0 auto 24px;
+}
+.panel {
+  background:rgba(255,255,255,.075);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:28px;
+  padding:clamp(22px,5vw,38px);
+}
+.btn {
+  border:0;
+  border-radius:999px;
+  padding:14px 23px;
+  background:linear-gradient(100deg,#f5a8ca,#c9a7f2);
+  color:#321b42;
+  font-weight:800;
+  cursor:pointer;
+}
+.btn.secondary {
+  background:rgba(255,255,255,.1);
+  border:1px solid #ffffff44;
+  color:white;
+}
+.gift {
+  width:148px;
+  height:132px;
+  margin:34px auto 28px;
+  position:relative;
+  animation:bob 3s ease-in-out infinite;
+}
+@keyframes bob {
+  50% { transform:translateY(-9px); }
+}
+.gift .lid {
+  position:absolute;
+  top:22px;
+  width:148px;
+  height:28px;
+  background:#f3a2c6;
+  border-radius:8px;
+}
+.gift .box {
+  position:absolute;
+  left:9px;top:48px;
+  width:130px;height:82px;
+  border-radius:8px;
+  background:linear-gradient(90deg,#bb87df,#e99cc4);
+}
+.gift .ribbon {
+  position:absolute;
+  top:47px;left:68px;
+  width:13px;height:83px;
+  background:#ffe1ed;
+}
+.orb {
+  width:180px;height:180px;
+  margin:28px auto;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:radial-gradient(circle at 35% 30%,#ffe5f1,#e99fc9 35%,#9e70c7 75%);
+  box-shadow:0 0 65px #e497cd55;
+  font-size:4.5rem;
+}
+.memory-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin:24px 0;
+}
+.memory {
+  min-height:128px;
+  border-radius:18px;
+  padding:17px 13px;
+  background:linear-gradient(145deg,#ffdeee2b,#c9a7f21f);
+  border:1px solid #ffffff26;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:8px;
+}
+.memory b {
+  color:#ffe0ef;
+  font-family:Georgia,serif;
+}
+.memory span {
+  color:#e6d5eb;
+  font-size:.83rem;
+}
+.envelope {
+  width:min(260px,75vw);
+  height:165px;
+  margin:26px auto;
+  position:relative;
+  background:#e9a9cb;
+  border-radius:8px;
+  cursor:pointer;
+}
+.envelope:before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:#f4c4dc;
+  clip-path:polygon(0 0,50% 58%,100% 0);
+}
+.envelope:after {
+  content:"♥";
+  position:absolute;
+  left:calc(50% - 17px);
+  top:58px;
+  color:#a64c83;
+  font-size:34px;
+}
+.letter {
+  text-align:left;
+  background:#fff2f8;
+  color:#593a5e;
+  border-radius:18px;
+  padding:24px;
+  line-height:1.85;
+  margin-top:18px;
+}
+.letter p {
+  color:#593a5e;
+  font-family:Georgia,serif;
+}
+.cake {
+  margin:20px auto 12px;
+  width:220px;height:170px;
+  position:relative;
+  cursor:pointer;
+}
+.cake-base {
+  position:absolute;
+  bottom:0;left:10px;
+  width:200px;height:95px;
+  border-radius:16px 16px 22px 22px;
+  background:linear-gradient(90deg,#d98cb8,#ffc8df,#d98cb8);
+}
+.candle {
+  position:absolute;
+  bottom:92px;left:101px;
+  width:18px;height:58px;
+  border-radius:5px;
+  background:repeating-linear-gradient(135deg,#fff0f7 0 7px,#c9a7f2 7px 13px);
+}
+.flame {
+  position:absolute;
+  top:-25px;left:3px;
+  width:13px;height:23px;
+  border-radius:50%;
+  background:#ffb44e;
+  box-shadow:0 0 20px #ffc36b;
+  animation:flicker .6s infinite alternate;
+}
+@keyframes flicker {
+  to { transform:rotate(5deg) scale(.9); }
+}
+.cake.blown .flame { display:none; }
+.hint { font-size:.83rem;color:#d9c1e2; }
+.signature {
+  color:#ffd5e8;
+  font-family:Georgia,serif;
+  font-style:italic;
+  font-size:1.35rem;
+  margin-top:22px;
+}
+.music {
+  position:fixed;
+  right:14px;top:14px;
+  z-index:5;
+  border:1px solid #ffffff35;
+  background:#ffffff12;
+  color:white;
+  border-radius:99px;
+  padding:9px 13px;
+  cursor:pointer;
+}
+.progress {
+  position:fixed;
+  left:50%;bottom:12px;
+  transform:translateX(-50%);
+  display:flex;gap:6px;
+}
+.dot {
+  width:6px;height:6px;
+  border-radius:50%;
+  background:#ffffff45;
+}
+.dot.on {
+  width:20px;
+  border-radius:10px;
+  background:#f6b7d5;
+}
+@media(max-width:420px) {
+  .memory-grid { gap:9px; }
+  .memory { min-height:118px;padding:13px 9px; }
+}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="hearts" id="hearts"></div>
+
+<button class="music" id="musicToggle">♫ Music off</button>
+
+<div class="wrap">
+<main style="width:100%">
+
+<section class="screen active">
+  <div class="eyebrow">A little surprise, made with love</div>
+  <div class="gift">
+    <div class="lid"></div>
+    <div class="box"></div>
+    <div class="ribbon"></div>
+  </div>
+  <h1 class="gradient">Hey, Munny...</h1>
+  <p class="sub">
+    There is a little world waiting for you.
+    It has a few surprises, a little magic,
+    and a whole lot of love.
+  </p>
+  <button class="btn" onclick="startExperience()">
+    Open your surprise ♡
+  </button>
+</section>
+
+<section class="screen">
+  <div class="eyebrow">Today is all about you</div>
+  <div class="orb">🎂</div>
+  <h1 class="gradient">Happy Birthday,<br>Munny!</h1>
+  <p class="sub">
+    Fatema Akther Munny, may your day be as lovely,
+    gentle, and bright as the happiness you bring
+    into the world.
+  </p>
+  <button class="btn" onclick="nextScreen()">Let the magic begin ✨</button>
+</section>
+
+<section class="screen">
+  <div class="eyebrow">A few little things to celebrate</div>
+  <h2 class="gradient">You make life brighter</h2>
+  <p class="sub">
+    No photographs are needed to celebrate
+    the beautiful things that make you, you.
+  </p>
+  <div class="memory-grid">
+    <div class="memory"><b>♡ Your smile</b><span>A little light that can brighten an ordinary day.</span></div>
+    <div class="memory"><b>✧ Your heart</b><span>The kindness and warmth you carry with you.</span></div>
+    <div class="memory"><b>☾ Your presence</b><span>Some people make the world feel softer just by being there.</span></div>
+    <div class="memory"><b>∞ Your dreams</b><span>May every beautiful hope find its way to you.</span></div>
+  </div>
+  <button class="btn" onclick="nextScreen()">There is a letter for you 💌</button>
+</section>
+
+<section class="screen">
+  <div class="eyebrow">Something from my heart</div>
+  <h2 class="gradient">A letter for Munny</h2>
+  <p class="sub">Tap the envelope to open your letter.</p>
+  <div class="envelope" onclick="openLetter()"></div>
+  <div id="letterContent" class="letter" hidden>
+    <p>My dearest Munny,</p>
+    <p>
+      Today is a reminder of how lucky the world is
+      to have you in it. I hope you see yourself
+      through the kindest eyes and remember how
+      special you are.
+    </p>
+    <p>
+      May this new chapter bring you peaceful mornings,
+      unexpected happiness, courage for every dream,
+      and countless reasons to smile.
+    </p>
+    <p>
+      Thank you for being exactly who you are.
+      I hope your heart always feels as loved
+      and appreciated as it deserves.
+    </p>
+    <p>
+      Happy birthday, Munny. Keep shining,
+      keep dreaming, and never stop being wonderfully you.
+    </p>
+    <p>With lots of love,<br><strong>Tanbir</strong></p>
+  </div>
+  <div id="letterNext" hidden>
+    <button class="btn" onclick="nextScreen()">Make a wish with me 🕯️</button>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="eyebrow">Close your eyes and make a wish</div>
+  <h2 class="gradient">A wish just for you</h2>
+  <p class="sub">
+    Think of something your heart truly wishes for,
+    then tap the candle to blow it out.
+  </p>
+  <div class="cake" id="cake" onclick="blowCandle()">
+    <div class="candle"><div class="flame"></div></div>
+    <div class="cake-base"></div>
+  </div>
+  <p class="hint" id="cakeHint">Tap the candle when you're ready ✨</p>
+  <div id="cakeNext" hidden>
+    <button class="btn" onclick="nextScreen()">One last thing... 💗</button>
+  </div>
+</section>
+
+<section class="screen">
+  <div class="eyebrow">Just one more little surprise</div>
+  <div class="orb">💗</div>
+  <h2 class="gradient">You deserve all the happiness</h2>
+  <p class="sub">
+    May the year ahead be filled with love that feels safe,
+    dreams that come true, laughter that lasts,
+    and moments you wish you could keep forever.
+  </p>
+  <button class="btn" onclick="nextScreen()">Read my final wish ♡</button>
+</section>
+
+<section class="screen">
+  <div class="eyebrow">A final wish, from me to you</div>
+  <h1 class="gradient">Keep shining,<br>beautiful soul.</h1>
+  <div class="panel">
+    <p>
+      Happy Birthday, Fatema Akther Munny.
+      I hope life surprises you with the same beauty
+      and happiness you deserve.
+    </p>
+    <p>
+      May you always have a reason to smile,
+      a dream to follow, and love around you.
+    </p>
+    <div class="signature">
+      Someone named Tanbir who loves you ❤️
+    </div>
+  </div>
+  <p>Made with love, just for you. ♡</p>
+  <button class="btn secondary" onclick="restart()">Experience again ↻</button>
+</section>
+
+</main>
+</div>
+
+<div class="progress" id="progress"></div>
+
+<script>
+const screens = [...document.querySelectorAll('.screen')];
+let current = 0;
+let audioCtx = null;
+let musicOn = false;
+let musicTimer = null;
+let chordIndex = 0;
+
+const progress = document.getElementById('progress');
+
+function makeProgress() {
+  progress.innerHTML = '';
+  screens.forEach((_,i) => {
+    const d = document.createElement('span');
+    d.className = 'dot' + (i===current ? ' on' : '');
+    progress.appendChild(d);
+  });
+}
+
+function showScreen(n) {
+  current = Math.max(0,Math.min(n,screens.length-1));
+  screens.forEach((s,i) => s.classList.toggle('active',i===current));
+  makeProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(current===6) celebration();
+}
+
+function nextScreen() { showScreen(current+1); }
+function restart() { showScreen(0); }
+
+function startExperience() {
+  startMusic();
+  nextScreen();
+}
+
+makeProgress();
+
+// Original soft synthesized instrumental music
+const chords = [
+  [261.63,329.63,392],
+  [220,261.63,329.63],
+  [174.61,220,261.63],
+  [196,246.94,293.66]
+];
+
+function startMusic() {
+  try {
+    if(!audioCtx)
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    if(audioCtx.state==='suspended') audioCtx.resume();
+
+    musicOn = true;
+    document.getElementById('musicToggle').textContent='♫ Music on';
+
+    if(musicTimer) clearInterval(musicTimer);
+    playChord();
+    musicTimer = setInterval(playChord,2600);
+  } catch(e) {
+    console.log('Audio unavailable');
+  }
+}
+
+function playChord() {
+  if(!audioCtx || !musicOn) return;
+
+  const now = audioCtx.currentTime;
+  const chord = chords[chordIndex++%chords.length];
+
+  chord.forEach((freq,i) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type='sine';
+    osc.frequency.value=freq*(i===2?2:1);
+
+    gain.gain.setValueAtTime(0,now);
+    gain.gain.linearRampToValueAtTime(.025,now+.5);
+    gain.gain.exponentialRampToValueAtTime(.001,now+2.45);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(now);
+    osc.stop(now+2.5);
+  });
+}
+
+document.getElementById('musicToggle').onclick = () => {
+  if(!musicOn) {
+    startMusic();
+  } else {
+    musicOn=false;
+    clearInterval(musicTimer);
+    document.getElementById('musicToggle').textContent='♫ Music off';
+  }
+};
+
+function openLetter() {
+  document.getElementById('letterContent').hidden=false;
+  document.getElementById('letterNext').hidden=false;
+  document.querySelector('.envelope').style.display='none';
+}
+
+function blowCandle() {
+  const cake=document.getElementById('cake');
+  if(cake.classList.contains('blown')) return;
+
+  cake.classList.add('blown');
+  document.getElementById('cakeHint').textContent=
+    'Your wish is on its way to the stars. ✨';
+  document.getElementById('cakeNext').hidden=false;
+}
+
+function createHeart() {
+  const el=document.createElement('span');
+  el.className='heart';
+  el.textContent=['♥','♡','✧'][Math.floor(Math.random()*3)];
+  el.style.left=Math.random()*100+'vw';
+  el.style.fontSize=(14+Math.random()*20)+'px';
+  el.style.animationDuration=(5+Math.random()*5)+'s';
+
+  document.getElementById('hearts').appendChild(el);
+  setTimeout(()=>el.remove(),10000);
+}
+
+function celebration() {
+  for(let i=0;i<12;i++)
+    setTimeout(createHeart,i*180);
+}
+
+setInterval(createHeart,1100);
+
+// Background stars
+const stars=document.getElementById('stars');
+
+for(let i=0;i<65;i++) {
+  const s=document.createElement('i');
+  s.className='star';
+  s.style.left=Math.random()*100+'%';
+  s.style.top=Math.random()*100+'%';
+  s.style.animationDelay=Math.random()*3+'s';
+  stars.appendChild(s);
+}
+</script>
+</body>
+</html>
